@@ -41,7 +41,9 @@ def overlap_score(intersection, union):
     return np.mean(intersection / union)
 
 def compute_metrics(labels, prediction):
-    intersection_labels, union_labels, intersection_prediction, union_prediction = compute_intersection_union_lists(labels, prediction)
+    ranges_labels = find_anomaly_ranges(labels)
+    ranges_prediction = find_anomaly_ranges(prediction)
+    intersection_labels, union_labels, intersection_prediction, union_prediction = compute_intersection_union_lists(ranges_labels, ranges_prediction)
     existence = existence_score(intersection_labels)
     overlap = overlap_score(intersection_labels, union_labels)
     precision = overlap_score(intersection_prediction, union_prediction)
