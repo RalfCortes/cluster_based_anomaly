@@ -86,8 +86,8 @@ class optimizer:
         # mu = np.repeat(list_mu, win_len)
         # mu = mu / mu.sum()  # normalize the coefficients
 
-        mu = list_mu / np.sum(list_mu)
-        mu = np.repeat(mu, win_len)
+        mu_ = list_mu / np.sum(list_mu)
+        mu = np.repeat(mu_, win_len)
 
         cntr, u, _, _, _, _, _ = fuzz.cluster.cmeans(
             self.data.T,
@@ -108,7 +108,7 @@ class optimizer:
         self.dict_opt_save[self.i] = {
             "loss_sum": output,
             "loss_ts": loss,
-            "list_mu": list_mu,
+            "list_mu": mu_,
         }
         self.i += 1
 
@@ -117,8 +117,8 @@ class optimizer:
     def pso_cost_function(self, list_mu):
         win_len = self.data.shape[1] // len(list_mu)
 
-        mu = list_mu / np.sum(list_mu)
-        mu = np.repeat(mu, win_len)
+        mu_ = list_mu / np.sum(list_mu)
+        mu = np.repeat(mu_, win_len)
 
         # mu = np.repeat(list_mu, win_len)
         # mu = mu / mu.sum()  # normalize the coefficients
@@ -141,7 +141,7 @@ class optimizer:
         self.dict_opt_save_pso[self.i_pso] = {
             "loss_sum": output,
             "loss_ts": loss,
-            "list_mu": list_mu,
+            "list_mu": mu_,
         }
         self.i_pso += 1
 
