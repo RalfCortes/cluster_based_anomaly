@@ -23,6 +23,18 @@ def generate_subsequences(data, window_size, step_size):
         subsequences[i, :, :] = data[i * step_size : i * step_size + window_size, :]
     return subsequences
 
+def upscale_signal(subsequences, original_size, stride, window_length, operator=np.maximum):
+    """
+    From subsequences losses, construct a loss for each point of the signal
+    """
+    upscaled_signal = np.zeros(original_size)  
+
+    for i, subsequence in enumerate(subsequences):
+        start_index = i * stride
+        end_index = start_index + window_length
+        upscaled_signal[start_index:end_index] = operator(upscaled_signal[start_index:end_index], subsequence)
+
+    return upscaled_signal[upscaled_signal > 0]
 
 def reconstructed_loss(reconstructed_points, initial_points):
     return np.linalg.norm(reconstructed_points - initial_points, ord=2, axis=1)
