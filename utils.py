@@ -8,6 +8,8 @@ from tqdm.notebook import tqdm
 def distance_weighted(x, y, mu):
     return np.sum(np.array(mu) * (x - y) ** 2)
 
+def normalize_lambda(lambda_):
+    return lambda_ / np.sum(lambda_)
 
 def generate_subsequences(data, window_size, step_size):
     num_points, num_variables = data.shape
